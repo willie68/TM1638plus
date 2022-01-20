@@ -182,6 +182,30 @@ uint8_t TM1638plus::readButtons()
   return buttons;
 }
 
+uint16_t TM1638plus::readButtons16()
+{
+  uint16_t buttons = 0;
+  uint8_t v =0;
+  
+  digitalWrite(_STROBE_IO, LOW);
+  sendData(TM_BUTTONS_MODE);
+  pinMode(_DATA_IO, INPUT);  
+
+  for (uint8_t i = 0; i < 4; i++)
+  {
+    if  (_HIGH_FREQ == false)
+        v = shiftIn(_DATA_IO, _CLOCK_IO, LSBFIRST);
+    else
+        v = TM_common.HighFreqshiftin(_DATA_IO, _CLOCK_IO, LSBFIRST);
+    
+    buttons |= (v & 0x07) << (i*3);
+  }
+
+  pinMode(_DATA_IO, OUTPUT);
+  digitalWrite(_STROBE_IO, HIGH); 
+  return buttons;
+}
+
 
 void TM1638plus::brightness(uint8_t brightness)
 {

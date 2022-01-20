@@ -51,6 +51,8 @@ public:
 	// for de-bonce example.
 	uint8_t readButtons(void);
 
+	uint16_t readButtons16();
+
 	// Send Text to Seven segments, passed char array pointer
 	// dots are removed from string and dot on preceding digit switched on
 	// "abc.def" will be shown as "abcdef" with c decimal point turned on.
